@@ -1,4 +1,6 @@
 <?php
+include 'models/patients.php';
+include 'models/appointments.php';
 /** 
  * On instancie l'objet profil
  */
@@ -82,6 +84,14 @@ if (isset($_POST['submit'])) {
         }
     }
 }
+// On instancie (dans une variable appeler (objet) $appointment à partir de l'instance(inutilisable seule) appointments (copie de la classe appointments)
+$appointment = new appointments();
+$appointment->idPatients = $profil->id;
 // On place le select à la fin du code pour que l'affichage soit instantanée
 $profilList = $profil->getProfilById();
+
+// On appelle la méthode getAppointmentsList
+// La flèche appelée opérateur objet signifie que l'on souhaite accéder à la méthode getAppointmentsList de l'objet $appointment
+$appointmentList = $appointment->getAppointmentByIdPatients();
+
 ?>

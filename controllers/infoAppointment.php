@@ -1,4 +1,13 @@
 <?php
+include 'models/appointments.php';
+include 'models/patients.php';
+
+if (!empty($_GET['id']) && is_numeric($_GET['id'])) {
+    $patient = new patients();
+    $patient->id = $_GET['id'];
+
+
+
 
 // nouvel objet tout en haut car modification
 if (isset($_POST['submit'])) {
@@ -57,5 +66,6 @@ if ($showAppointment == false){
     exit;
 }
 $patient = new patients();
-$patientsList = $patient->getShowPatientsList();
+$patientsList = $patient->getPatientsList();
+}
 ?>

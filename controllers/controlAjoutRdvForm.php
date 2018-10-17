@@ -1,4 +1,5 @@
 <?php
+include 'models/appointments.php';
 // Liste des regex
 $patient = NEW patients();
 $patientsList = $patient->getPatientsList();

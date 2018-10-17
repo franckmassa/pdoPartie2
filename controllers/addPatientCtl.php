@@ -1,5 +1,5 @@
 <?php
-
+include 'models/patients.php';
 //déclaration de la regex pour les noms
 $regexName = '/^[A-Za-zàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ° \'\-]+$/';
 //regex pour le numéro de téléphone (commençant obligatoirement par un 0 et contenant 10 chiffres)

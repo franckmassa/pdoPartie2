@@ -1,5 +1,5 @@
 <?php
-include 'models/patients.php';
+include 'models/database.php';
 include 'controllers/profil-patientCtl.php';
 ?>
 <!DOCTYPE html>
@@ -44,41 +44,48 @@ include 'controllers/profil-patientCtl.php';
                     </tbody>
                 </table>
             </div>
-            <div class="row">
-                <div  class="offset-2 col-md-8 mt-3">
-                    <form action="#" method="POST">
-                        <div class="form-group">
-                            <label for="lastname">Nom</label>
-                            <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Nom" value="<?= $profilList->lastname ?>"/>
-                            <?php if (isset($formError['lastname'])) { ?>
-                                <p class="text-danger"><?= isset($formError['lastname']) ? $formError['lastname'] : '' ?></p>
-                            <?php } ?>
-                            <label for="firstname">Prénom</label>
-                            <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Prénom" value="<?= $profilList->firstname ?>"/>
-                            <?php if (isset($formError['firstname'])) { ?>
-                                <p class="text-danger"><?= isset($formError['firstname']) ? $formError['firstname'] : '' ?></p>
-                            <?php } ?>
-                            <label for="birthDate">Date de naissance</label>
-                            <input type="date" class="form-control" name="birthdate" id="birthdate" value="<?= $profilList->birthdate ?>"/>
-                            <?php if (isset($formError['birthdate'])) { ?>
-                                <p class="text-danger"><?= isset($formError['birthdate']) ? $formError['birthdate'] : '' ?></p>
-                            <?php } ?>
-                            <label for="mail">Adresse mail</label>
-                            <input type="text" class="form-control" name="mail" id="mail" placeholder="Adresse mail" value="<?= $profilList->mail ?>"/>
-                            <?php if (isset($formError['mail'])) { ?>
-                                <p class="text-danger"><?= isset($formError['mail']) ? $formError['mail'] : '' ?></p>
-                            <?php } ?>
-                            <label for="phone">Téléphone</label>
-                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Téléphone" value="<?= $profilList->phone ?>"/>
-                            <?php if (isset($formError['mail'])) { ?>
-                                <p class="text-danger"><?= isset($formError['phone']) ? $formError['phone'] : '' ?></p>
-                            <?php } ?>
-                            <input type="submit" name="submit" id="submit" value="VALIDATION"/>
-                        </div> 
-                    </form>
-                    <p class="text-danger"><?= isset($formError['submit']) ? $formError['submit'] : '' ?></p>
-                </div>
+            <?php foreach ($appointmentList as $appointmentDetails) { ?>
+                <tr>
+                    <td><?= $appointmentDetails->date ?></td>
+                    <td><?= $appointmentDetails->hour ?></td>
+                    <td><a href="rendezvous.php?id=<?= $appointmentDetails->id ?>" title="Modification du rendez-vous.">Modifier</a></td>
+                </tr>   
+            <?php } ?>
+
+            <div  class="offset-2 col-md-8 mt-3">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="lastname">Nom</label>
+                        <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Nom" value="<?= $profilList->lastname ?>"/>
+                        <?php if (isset($formError['lastname'])) { ?>
+                            <p class="text-danger"><?= isset($formError['lastname']) ? $formError['lastname'] : '' ?></p>
+                        <?php } ?>
+                        <label for="firstname">Prénom</label>
+                        <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Prénom" value="<?= $profilList->firstname ?>"/>
+                        <?php if (isset($formError['firstname'])) { ?>
+                            <p class="text-danger"><?= isset($formError['firstname']) ? $formError['firstname'] : '' ?></p>
+                        <?php } ?>
+                        <label for="birthDate">Date de naissance</label>
+                        <input type="date" class="form-control" name="birthdate" id="birthdate" value="<?= $profilList->birthdate ?>"/>
+                        <?php if (isset($formError['birthdate'])) { ?>
+                            <p class="text-danger"><?= isset($formError['birthdate']) ? $formError['birthdate'] : '' ?></p>
+                        <?php } ?>
+                        <label for="mail">Adresse mail</label>
+                        <input type="text" class="form-control" name="mail" id="mail" placeholder="Adresse mail" value="<?= $profilList->mail ?>"/>
+                        <?php if (isset($formError['mail'])) { ?>
+                            <p class="text-danger"><?= isset($formError['mail']) ? $formError['mail'] : '' ?></p>
+                        <?php } ?>
+                        <label for="phone">Téléphone</label>
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="Téléphone" value="<?= $profilList->phone ?>"/>
+                        <?php if (isset($formError['mail'])) { ?>
+                            <p class="text-danger"><?= isset($formError['phone']) ? $formError['phone'] : '' ?></p>
+                        <?php } ?>
+                        <input type="submit" name="submit" id="submit" value="VALIDATION"/>
+                    </div> 
+                </form>
+                <p class="text-danger"><?= isset($formError['submit']) ? $formError['submit'] : '' ?></p>
             </div>
         </div>
+    </div>
 </body>
 </html>

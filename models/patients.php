@@ -1,36 +1,20 @@
 <?php
 
-/** On déclare la classe patients */
-class patients {
+///creation de la classe showTypes
+class patients extends database {
 
-    /**
-     * Les attributs
-     * @var type 
-     */
-    private $connexion;
+//liste des attributs (protected= accessible dans la classe et ses héritiers , private = uniquement ds la classe, public= classe et autres(controller et view)
     public $id;
     public $lastname;
     public $firstname;
     public $birthdate;
     public $phone;
     public $mail;
+    public $search;
 
-    /**
-     *  On utilise la methode magique __contruct pour se connecter
-     */
+//méthode construct
     public function __construct() {
-        /**
-         * On test les erreurs avec le try/catch 
-         * Si tout est bon, on est connecté à la base de donnée
-         */
-        try {
-            $this->connexion = NEW PDO('mysql:host=localhost;dbname=hospitalE2N;charset=utf8', 'franck', 'Piment98');
-        }
-        /**
-         *  Autrement, un message d'erreur est affiché
-         */ catch (Exception $e) {
-            die($e->getMessage());
-        }
+        parent::__construct();
     }
 
 // Exercice 1
@@ -39,40 +23,53 @@ class patients {
      * @return type
      */
     public function addPatient() {
+// On écrit la requête
         $query = 'INSERT INTO `patients`(`lastname`, `firstname`, `birthdate`, `phone`, `mail`) '
                 . 'VALUES (:lastname, :firstname, :birthdate, :phone, :mail)';
-        $insertPatient = $this->connexion->prepare($query);
+// On prend l'objet PDO (db) et on prépare la requête $query
+        $insertPatient = $this->db->prepare($query);
+// bindvalue permet d'attibuer une valeur string au marqueur nominatif :lastname
         $insertPatient->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
+// bindvalue permet d'attibuer une valeur string au marqueur nominatif :firstname
         $insertPatient->bindValue(':firstname', $this->firstname, PDO::PARAM_STR);
+// bindvalue permet d'attibuer une valeur string au marqueur nominatif :birthdate
         $insertPatient->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
+// bindvalue permet d'attibuer une valeur string au marqueur nominatif :phone
         $insertPatient->bindValue(':phone', $this->phone, PDO::PARAM_STR);
+// bindvalue permet d'attibuer une valeur string au marqueur nominatif :mail
         $insertPatient->bindValue(':mail', $this->mail, PDO::PARAM_STR);
+// On execute la requête 
         return $insertPatient->execute();
     }
-    
+
 // Exercice 2
     /** Méthode getPatientsList pour récupérer le résultat de la requête pour la liste des patients
-     * Afichage d'un tableau vide en cas d'erreur, pour plus de clareté pour l'utilisateur 
+     *  Afichage d'un tableau vide en cas d'erreur, pour plus de clareté pour l'utilisateur 
+     * La méthode permet d'accéder aux attributs ou propriétés de la classe par l'extérieur, en sécurité
      */
     public function getPatientsList() {
+// Tableau des données
         $result = array();
-        $PDOResult = $this->connexion->query('SELECT `id`, `lastname`, `firstname` FROM `patients`');
+// On récupère les données dans la variable $PDOResult
+        $PDOResult = $this->db->query('SELECT `id`, `lastname`, `firstname`, `birthdate`, `phone`, `mail` FROM `patients`');
+// Si la variable $PDOResult est de type objet, on stocke toutes les données avec fetchall, dans la variable $result
         if (is_object($PDOResult)) {
             $result = $PDOResult->fetchAll(PDO::FETCH_OBJ);
         }
+// On retourne les données dans un tableau associatif array();
         return $result;
     }
-    
+
 // Exercice 3
     /**
      *  Méthode getProfilList pour récupérer le résultat de la requête pour le profil du patient
      * On prépare la requête qui retourne un objet
      */
     public function getProfilById() {
-        $PDOResult = $this->connexion->prepare('SELECT `id`, `lastname`, `firstname`, `birthdate`, `phone`, `mail` '
+        $PDOResult = $this->db->prepare('SELECT `id`, `lastname`, `firstname`, `birthdate`, `phone`, `mail` '
                 . 'FROM `patients` '
                 . 'WHERE `id` = :id'); // :id marqueur nominatif car id est une inconnue
-        // bindvalue Associe une valeur à un paramètre (marqueur nominatif), this se réfère à tous les attributs de la classe
+// bindvalue Associe une valeur à un paramètre (marqueur nominatif), this se réfère à tous les attributs de la classe
         $PDOResult->bindvalue(':id', $this->id, PDO::PARAM_INT);
         /** On execute la requête
          */
@@ -85,10 +82,11 @@ class patients {
         }
         return $result;
     }
+
 // Exercice 4
     public function updatePatientProfil() {
         $query = 'UPDATE `patients` SET `lastname` = :lastname, `firstname` = :firstname, `birthdate` = :birthdate, `phone` = :phone, `mail` = :mail WHERE `id` = :id';
-        $modifyPatient = $this->connexion->prepare($query);
+        $modifyPatient = $this->db->prepare($query);
         $modifyPatient->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
         $modifyPatient->bindValue(':firstname', $this->firstname, PDO::PARAM_STR);
         $modifyPatient->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
@@ -98,9 +96,64 @@ class patients {
         return $modifyPatient->execute();
     }
 
-    // On ferme la connexion
-    public function __destruct() {
-        $this->connexion = NULL;
+    //Exercice 11
+    /**
+     * Méthode pour supprimer un patients et son rendez-vous (suppression patients)
+     * @return string
+     */
+    public function removePatient() {
+        $remove = $this->db->prepare('DELETE FROM `patients`'
+                . 'WHERE `id` =  :idRemove ');
+        $remove->bindValue(':idRemove', $this->id, PDO::PARAM_INT);
+        return $remove->execute();
     }
 
+// Exercice 12    
+    /**
+     * Méthode getSearchProfil pour rechercher un profil dans une longue liste. 
+     * @return type
+     */
+//    public function getSearchProfil() {
+//        $result = array();
+//        $searchProfil = $this->db->prepare('SELECT `id`, `lastname`, `firstname` FROM `patients` WHERE `lastname` LIKE :lastname OR `firstname` LIKE :firstname');
+//        //integrer la valeur de l'attribut $search dans le marqueur nominatif :lastname avec la fonction bindvalue.
+//        $searchProfil->bindValue(':lastname', '%' . $this->search . '%', PDO::PARAM_STR);
+//        $searchProfil->bindValue(':firstname', '%' . $this->search . '%', PDO::PARAM_STR);
+//        if ($searchProfil->execute()) {
+//            $result = $searchProfil->fetchAll(PDO::FETCH_OBJ);
+//        }
+//        return $result;
+//        
+//    }
+
+    //Déclaration de la méthode findPatientByLastname($search)
+public function findPatientByLastname($search)
+{   //Déclaration du tableau vide $findPatientList
+    $findPatientList = array();
+    //Préparation de la requete et intégration dans $findPatient
+    $findPatient = $this->db->prepare(
+            'SELECT `id`, `lastname`, `firstname`, DATE_FORMAT(`birthdate`, \'%d/%m/%Y\') AS `birthdate`, `phone`, `mail` '
+            . 'FROM `patients` '
+            . 'WHERE `lastname` LIKE :search OR `firstname` LIKE :search ORDER BY `lastname`');
+    //Récupération de la valeur de $search passé en parametre de la méthode dans la fonction bindValue() pour le filtrage, ajout des modulos
+    $findPatient->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+    //Si $findPatient est éxécuté
+    if ($findPatient->execute())
+    {   //Si $findPatient est un objet
+        if (is_object($findPatient))
+        {   //Récupération du résultat de la requete dans $findPatientList
+            $findPatientList = $findPatient->fetchAll(PDO::FETCH_OBJ);
+            //Sinon
+        } else {
+            //Attribuer FALSE a $findPatientList
+            $findPatientList = FALSE;
+        }
+      //Sinon
+    } else {
+        //Attribuer FALSE a $findPatientList
+        $findPatientList = FALSE;
+    }
+    //Retourner $findPatientList
+    return $findPatientList;
+}
 }
