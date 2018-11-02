@@ -6,9 +6,6 @@ if (!empty($_GET['id']) && is_numeric($_GET['id'])) {
     $patient = new patients();
     $patient->id = $_GET['id'];
 
-
-
-
 // nouvel objet tout en haut car modification
 if (isset($_POST['submit'])) {
     $updateAppointment = new appointments();

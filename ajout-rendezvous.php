@@ -1,6 +1,5 @@
 <?php
 include 'models/database.php';
-
 include 'models/patients.php';
 include 'controllers/controlAjoutRdvForm.php';
 ?>

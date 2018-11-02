@@ -19,7 +19,7 @@ include 'controllers/infoAppointment.php';
         <?php if (isset($_POST['submit']) && (count($formError) === 0)) { ?>
             <p class="paragraphe">Votre rendez-vous a bien été enregistré.</p>
         <?php } else { ?>
-            <div class="container-fluid">
+            <div class="container">
                 <div class="row">
                     <div class="form offset-2 col-8 offset-2">
                         <form action="rendezvous.php?id=<?= $appointment->id ?>" method="POST">

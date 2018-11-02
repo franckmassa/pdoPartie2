@@ -1,6 +1,6 @@
 <?php
   
-//creation de la classe showTypes
+//creation de la classe appointments
 class appointments extends database{
 
 //liste des attributs (protected= accessible dans la classe et ses héritiers , private = uniquement ds la classe, public= classe et autres(controller et view)

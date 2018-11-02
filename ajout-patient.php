@@ -1,6 +1,5 @@
 <?php
 include 'models/database.php';
-
 include 'controllers/addPatientCtl.php';
 ?>
 <!DOCTYPE html>

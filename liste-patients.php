@@ -7,6 +7,9 @@ include 'controllers/patientsListCtl.php';
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <!-- le lien bootswatch pour afficher la pagination -->
+        <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css" />
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
         <link rel="stylesheet" href="assets/css/style.css" />
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
@@ -74,10 +77,30 @@ include 'controllers/patientsListCtl.php';
                                 <td><a href="profil-patient.php?id=<?= $patientsListDetail->id ?>">Voir le profil</a></td>                               
                                 <td><form method="POST" action="?idRemove=<?= $patientsListDetail->id ?>"><input type="submit" value="Supprimer" name="submit" class="btn btn-danger"/></form></td>
                             </tr>
-                            <?php } ?>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
+       <!-- Pagination -->
+        <div>
+        <ul class="pagination">
+            <?php if($page > 1){ ?>
+            <li class="page-item">
+                <a class="page-link" href="liste-patients.php?page=<?= $page-1 ?>">&laquo;</a>
+            </li>
+            <?php } ?>
+            <?php for($i = 1; $i <= $numberOfPages; $i++){?>
+            <li class="page-item">
+                <a class="page-link" href="liste-patients.php?page=<?= $i ?>"><?= $i ?></a>
+            </li>
+            <?php } ?>
+            <?php if($page < $numberOfPages){ ?>
+            <li class="page-item">
+                <a class="page-link" href="liste-patients.php?page=<?= $page+1 ?>">&raquo;</a>
+            </li>
+            <?php } ?>
+        </ul>
+    </div>
         </div>
     </body>
 </html>

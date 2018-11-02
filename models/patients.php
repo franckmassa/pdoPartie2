@@ -1,6 +1,6 @@
 <?php
 
-///creation de la classe showTypes
+///creation de la classe patients
 class patients extends database {
 
 //liste des attributs (protected= accessible dans la classe et ses héritiers , private = uniquement ds la classe, public= classe et autres(controller et view)
@@ -125,35 +125,66 @@ class patients extends database {
 //        return $result;
 //        
 //    }
-
     //Déclaration de la méthode findPatientByLastname($search)
-public function findPatientByLastname($search)
-{   //Déclaration du tableau vide $findPatientList
-    $findPatientList = array();
-    //Préparation de la requete et intégration dans $findPatient
-    $findPatient = $this->db->prepare(
-            'SELECT `id`, `lastname`, `firstname`, DATE_FORMAT(`birthdate`, \'%d/%m/%Y\') AS `birthdate`, `phone`, `mail` '
-            . 'FROM `patients` '
-            . 'WHERE `lastname` LIKE :search OR `firstname` LIKE :search ORDER BY `lastname`');
-    //Récupération de la valeur de $search passé en parametre de la méthode dans la fonction bindValue() pour le filtrage, ajout des modulos
-    $findPatient->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
-    //Si $findPatient est éxécuté
-    if ($findPatient->execute())
-    {   //Si $findPatient est un objet
-        if (is_object($findPatient))
-        {   //Récupération du résultat de la requete dans $findPatientList
-            $findPatientList = $findPatient->fetchAll(PDO::FETCH_OBJ);
+    public function findPatientByLastname($search) {   //Déclaration du tableau vide $findPatientList
+        $findPatientList = array();
+        //Préparation de la requete et intégration dans $findPatient
+        $findPatient = $this->db->prepare(
+                'SELECT `id`, `lastname`, `firstname`, DATE_FORMAT(`birthdate`, \'%d/%m/%Y\') AS `birthdate`, `phone`, `mail` '
+                . 'FROM `patients` '
+                . 'WHERE `lastname` LIKE :search OR `firstname` LIKE :search ORDER BY `lastname`');
+        //Récupération de la valeur de $search passée en parametre de la méthode dans la fonction bindValue() pour le filtrage, ajout des modulos
+        $findPatient->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+        //Si $findPatient est éxécuté
+        if ($findPatient->execute()) {   //Si $findPatient est un objet
+            if (is_object($findPatient)) {   //Récupération du résultat de la requete dans $findPatientList
+                $findPatientList = $findPatient->fetchAll(PDO::FETCH_OBJ);
+                //Sinon
+            } else {
+                //Attribuer FALSE a $findPatientList
+                $findPatientList = FALSE;
+            }
             //Sinon
         } else {
             //Attribuer FALSE a $findPatientList
             $findPatientList = FALSE;
         }
-      //Sinon
-    } else {
-        //Attribuer FALSE a $findPatientList
-        $findPatientList = FALSE;
+        //Retourner $findPatientList
+        return $findPatientList;
     }
-    //Retourner $findPatientList
-    return $findPatientList;
-}
+
+    // Exercice 13 (pagination)
+    public function numberOfResults() {
+        $queryResult = $this->db->query('SELECT COUNT(`id`) AS countResults FROM `patients`');
+        if (is_object($queryResult)) {
+            $result = $queryResult->fetch(PDO::FETCH_OBJ);
+        } else {
+            $result = false;
+        }
+        return $result;
+    }
+
+    public function getPatientsListByFive($limit, $offset) {
+        $result = array();
+        $queryResult = $this->db->prepare('SELECT `id`,`lastname`, `firstname`, `birthdate`,`phone`, `mail` '
+                . 'FROM `patients` '
+                . 'LIMIT :limit OFFSET :offset');
+        $queryResult->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $queryResult->bindValue(':offset', $offset, PDO::PARAM_INT);
+        if($queryResult->execute()){
+            if(is_object($queryResult)){
+                $result = $queryResult->fetchAll(PDO::FETCH_OBJ);
+            } else {
+                $result = false;
+            }            
+        } else {
+            $result = false;
+        }
+        return $result;
+    }
+
+    // On ferme la db
+    public function __destruct() {
+        $this->db = NULL;
+    }
 }
