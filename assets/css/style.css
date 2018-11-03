@@ -33,3 +33,10 @@ table{
 .nav-link{
     color: white;
 }
+.paragraphe{
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: blue;
+}
+
+

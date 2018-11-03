@@ -23,7 +23,9 @@ include 'controllers/appointmentListCtl.php';
             <p> <?= $deleteError ?> </p>
         <?php } ?>
         <div class="container">
-
+            <div class="row">
+                <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold">Liste des rendez-vous</H1>
+            </div>
             <div class="row">
                 <table class="col-md-12 bg-white">
                     <thead>

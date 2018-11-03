@@ -23,6 +23,9 @@ include 'controllers/addPatientCtl.php';
         <?php } else { ?>   
             <div class="container">
                 <div class="row">
+                    <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold">Ajout d'un patient</H1>
+                </div>
+                <div class="row">
                     <div id="formBox" class="offset-2 col-8 offset-2 ">
                         <form action="#" method="POST">
                             <div class="form-group add ">

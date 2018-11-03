@@ -20,9 +20,11 @@ include 'controllers/patientsListCtl.php';
     <body>
         <?php include 'controllers/controllerNavbar2.php'; ?>
         <div class="container">
+            <div class="row">
+                <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold">Liste des patients</H1>
+            </div>
             <div class="row justify-content-center">
-                <h2 class="text-center col-md-12">Liste des patients</h2>
-
+                
                 <!-- Zone de recherche du patient -->
                 <form action="#" method="POST">
                     <div class="form-group">
@@ -81,9 +83,10 @@ include 'controllers/patientsListCtl.php';
                     </tbody>
                 </table>
             </div>
-       <!-- Pagination -->
+            
+       <!-- Pagination à suivre -->
         <div>
-        <ul class="pagination">
+<!--        <ul class="pagination">
             <?php if($page > 1){ ?>
             <li class="page-item">
                 <a class="page-link" href="liste-patients.php?page=<?= $page-1 ?>">&laquo;</a>
@@ -99,7 +102,7 @@ include 'controllers/patientsListCtl.php';
                 <a class="page-link" href="liste-patients.php?page=<?= $page+1 ?>">&raquo;</a>
             </li>
             <?php } ?>
-        </ul>
+        </ul>-->
     </div>
         </div>
     </body>

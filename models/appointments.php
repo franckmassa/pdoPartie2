@@ -65,7 +65,6 @@ class appointments extends database{
     }*/
 
     /**
-     * CORRECTION DE FABIEN
      * Méthode pour afficher la liste des rendez-vous (Affichage liste rendez-vous)
      * @return string*/
 

@@ -15,7 +15,7 @@ include 'controllers/infoAppointment.php';
         <title>Liste des rendez-vous</title>
     </head>
     <body>
-        <h1> La liste des rendez-vous </h1>
+        <h1 class="paragraphe">Rendez-vous patient</h1>
         <?php if (isset($_POST['submit']) && (count($formError) === 0)) { ?>
             <p class="paragraphe">Votre rendez-vous a bien été enregistré.</p>
         <?php } else { ?>

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr" dir="ltr">
     <head>
         <meta charset="utf-8" />
@@ -14,11 +13,14 @@
     <body>
         <?php include 'controllers/controllerNavbar2.php'; ?>
         <div class="container "> 
-            <h1 class="text-center text-uppercase text-danger font-weight-bold">Bienvenue à l'hopital e2n</h1>
+             <div class="row">
+                <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold">Liste des patients</H1>
+            </div>
             <div class="row">
                 <div class="col-md-12 text-center p-5">
-                    <img src="assets/img/hopital.jpg" alt="image hopital" width="100%"/>
+                    <img class="w-100" src="assets/img/hopital.jpg" alt="image hopital"/>
                 </div>
-
             </div>
+            </div>    
     </body>
+</html>
