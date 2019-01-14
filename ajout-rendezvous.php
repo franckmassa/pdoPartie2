@@ -19,7 +19,7 @@ include 'controllers/controlAjoutRdvForm.php';
             <p class="paragraphe">Votre rendez-vous a bien été enregistré.</p>
         <?php } else { ?>
             <div class="container">
-                    <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold">Ajout d'un rendez-vous</H1>
+                <H1 class="col-md-12 text-center text-uppercase text-muted font-weight-bold">Ajout d'un rendez-vous</H1>
                 <div class="row">
                     <div class="form offset-2 col-8 offset-2">
                         <form action="ajout-rendezvous.php" method="POST">
